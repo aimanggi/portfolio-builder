@@ -1,19 +1,32 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Router } from "react-router";
 import { Link } from "react-router-dom";
 import Header from "../components/navigation/Header";
 
 const Home = () => {
+  // State for storing all portfolio data
   const [portfolio, setPortfolio] = useState([]);
 
   useEffect(() => {
-    const getAll = axios
-      .get("https://portfolio-builder-oh.herokuapp.com/all")
-      .then((data) => {
-        console.log(data.data.data);
-        setPortfolio(data.data.data);
-      });
+    // first effect run fetch function to get portfolio data
+
+    // .then version
+    // axios.get("https://portfolio-builder-oh.herokuapp.com/all").then((data) => {
+    //   console.log(data);
+    //   setPortfolio(data.data.data);
+    // });
+
+    // async await version
+    const fetch = async () => {
+      const data = await axios.get(
+        "https://portfolio-builder-oh.herokuapp.com/all"
+      );
+
+      console.log(data);
+      // set portfolio data to state
+      setPortfolio(data.data.data);
+    };
+    fetch();
   }, []);
 
   console.log("portfolio", portfolio);
@@ -29,7 +42,8 @@ const Home = () => {
           {portfolio.map((project, index) => {
             return (
               <div key={project._id} className="portfolio-item">
-                <Link to={`/${project._id}`}>
+                {/* Refer to App.js router */}
+                <Link to={`/portfolio/${project._id}`}>
                   <div className="portfolio-wrapper">
                     <img src={project.images[0]} alt={project.title} />
                     <div className="portfolio-overlay">

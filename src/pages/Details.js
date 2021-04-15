@@ -8,25 +8,25 @@ const Details = () => {
   const match = useRouteMatch();
   console.log(location, match);
 
-  const [portfolio, setPortfolio] = useState(null);
+  const [details, setDetails] = useState(null);
 
   useEffect(() => {
     axios
       .get(`https://portfolio-builder-oh.herokuapp.com/${match.params.id}`)
       .then((data) => {
-        setPortfolio(data.data.data);
+        setDetails(data.data.data);
       });
   }, []);
 
-  console.log("details", portfolio);
+  console.log("details", details);
 
   return (
     <div>
       <Header />
-      {!portfolio ? (
+      {!details ? (
         <div>Loading..</div>
       ) : (
-        <div className="container details">{portfolio.title}</div>
+        <div className="container details">{details.title}</div>
       )}
     </div>
   );
